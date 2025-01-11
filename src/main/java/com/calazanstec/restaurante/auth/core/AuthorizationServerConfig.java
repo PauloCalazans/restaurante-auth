@@ -1,4 +1,4 @@
-package com.calazanstec.restaurante.auth;
+package com.calazanstec.restaurante.auth.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.calazanstec.restaurante.auth;
+package com.calazanstec.restaurante.auth.core;
 
 // Fonte: https://spring.io/blog/2015/06/08/cors-support-in-spring-framework#filter-based-cors-support
 
