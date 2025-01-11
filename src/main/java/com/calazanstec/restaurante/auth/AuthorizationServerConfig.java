@@ -3,6 +3,7 @@ package com.calazanstec.restaurante.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import java.util.Arrays;
 
@@ -33,6 +35,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtKeyStoreProperties jwtKeyStoreProperties;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -86,9 +91,13 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("asdfae8f7asdf4as5df4a5sfdsafd5455487878dsadfadsfe87895210asdf"); //MAC - Message Authentication Code
+        var jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        var jksResource = new ClassPathResource(jwtKeyStoreProperties.getPath());
 
+        var keyStoreKeyFactory = new KeyStoreKeyFactory(jksResource, jwtKeyStoreProperties.getPassword().toCharArray());
+        var keyPair = keyStoreKeyFactory.getKeyPair(jwtKeyStoreProperties.getKeypairAlias());
+
+        jwtAccessTokenConverter.setKeyPair(keyPair);
         return jwtAccessTokenConverter;
     }
 
