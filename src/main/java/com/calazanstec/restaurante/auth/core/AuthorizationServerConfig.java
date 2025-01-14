@@ -49,7 +49,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .withClient("restaurante-web")
                     .secret(passwordEncoder.encode("web123"))
                     .authorizedGrantTypes("password", "refresh_token")
-                    .scopes("write", "read")
+                    .scopes("WRITE", "READ")
                 .accessTokenValiditySeconds(60 * 60 * 6) //6 Horas o padrão é 12 horas
                 .refreshTokenValiditySeconds(60 * 60 * 24 * 10) //10 dias o padrão e 30 dias
 
@@ -57,20 +57,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .withClient("analytics")
                     .secret(passwordEncoder.encode("restaurante123"))
                     .authorizedGrantTypes("authorization_code")
-                    .scopes("write", "read")
+                    .scopes("WRITE", "READ")
                     .redirectUris("http://aplicacao-client")
 
                 .and()
                     .withClient("webadmin")
                     .authorizedGrantTypes("implicit")
-                    .scopes("write", "read")
+                    .scopes("WRITE", "READ")
                     .redirectUris("http://aplicacao-client")
 
                 .and()
                     .withClient("faturamento")
                     .secret(passwordEncoder.encode("fat123"))
                     .authorizedGrantTypes("client_credentials")
-                    .scopes("write", "read")
+                    .scopes("WRITE", "READ")
 
                 .and()
                     .withClient("checktoken")
